@@ -1,0 +1,21 @@
+{
+  "name": "dnd-music-player",
+  "version": "1.0.0",
+  "description": "D&D Music Player with scenes, overlays, and soundboard",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --no-sandbox"
+  },
+  "keywords": [
+    "dnd",
+    "music",
+    "soundboard",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0"
+  }
+}

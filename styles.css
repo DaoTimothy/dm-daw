@@ -1,0 +1,571 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #eee;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    background: #0f3460;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    color: #e94560;
+}
+
+.header-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.scenes-panel, .soundboard-panel {
+    width: 280px;
+    background: #16213e;
+    padding: 1rem;
+    overflow-y: auto;
+    border-right: 1px solid #0f3460;
+}
+
+.soundboard-panel {
+    border-right: none;
+    border-left: 1px solid #0f3460;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e94560;
+}
+
+.panel-header h2 {
+    font-size: 1.2rem;
+    color: #e94560;
+}
+
+.player-section {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.current-scene {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(233, 69, 96, 0.1);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.current-scene h2 {
+    color: #e94560;
+    font-size: 1.5rem;
+}
+
+.track-section {
+    background: rgba(255,255,255,0.05);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+}
+
+.track-section h3 {
+    color: #e94560;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.track-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.track-info {
+    font-size: 0.95rem;
+    color: #ccc;
+}
+
+.playback-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.playback-controls label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    margin-bottom: 0;
+}
+
+.overlays-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.overlay-item {
+    background: rgba(255,255,255,0.05);
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid rgba(233, 69, 96, 0.2);
+}
+
+.overlay-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.overlay-name {
+    font-weight: 600;
+    color: #e94560;
+    margin-bottom: 0.3rem;
+}
+
+.scenes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.scene-item-wrapper {
+    position: relative;
+}
+
+.scene-item {
+    background: rgba(255,255,255,0.05);
+    padding: 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.scene-item:hover {
+    background: rgba(233, 69, 96, 0.2);
+    border-color: #e94560;
+}
+
+.scene-item.active {
+    background: rgba(233, 69, 96, 0.3);
+    border-color: #e94560;
+}
+
+.scene-item-actions {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: none;
+    gap: 4px;
+}
+
+.scene-item-wrapper:hover .scene-item-actions {
+    display: flex;
+}
+
+.scene-action-btn {
+    background: rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.scene-action-btn:hover {
+    background: rgba(0,0,0,0.9);
+    border-color: #e94560;
+}
+
+.soundboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+}
+
+.sound-button-wrapper {
+    position: relative;
+}
+
+.sound-button {
+    background: linear-gradient(135deg, #e94560 0%, #c23656 100%);
+    border: none;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-align: center;
+    word-wrap: break-word;
+    width: 100%;
+    min-height: 80px;
+}
+
+.sound-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
+}
+
+.sound-button:active {
+    transform: translateY(0);
+}
+
+.sound-button-actions {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: none;
+    gap: 4px;
+}
+
+.sound-button-wrapper:hover .sound-button-actions {
+    display: flex;
+}
+
+.sound-action-btn {
+    background: rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.sound-action-btn:hover {
+    background: rgba(0,0,0,0.9);
+    border-color: #e94560;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: #e94560;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #d63850;
+}
+
+.btn-secondary {
+    background: #0f3460;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #1a4d7a;
+}
+
+.btn-small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+}
+
+.btn-icon {
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    background: #0f3460;
+    color: white;
+}
+
+.btn-icon:hover {
+    background: #1a4d7a;
+}
+
+input[type="range"] {
+    width: 120px;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    padding: 0.5rem;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    width: 100%;
+    margin-top: 0.3rem;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #e94560;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #ccc;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #16213e;
+    padding: 2rem;
+    border-radius: 10px;
+    min-width: 500px;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.modal-content h2 {
+    color: #e94560;
+    margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+}
+
+.modal-overlays {
+    margin: 1rem 0;
+}
+
+.modal-overlays h3 {
+    color: #e94560;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#modalOverlaysList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.overlay-modal-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto auto auto;
+    gap: 0.5rem;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 0.8rem;
+    border-radius: 4px;
+}
+
+.overlay-modal-item input {
+    flex: 1;
+    margin: 0 !important;
+}
+
+.overlay-modal-item button {
+    margin: 0;
+}
+
+.overlay-volume-input {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.overlay-volume-input input[type="range"] {
+    width: 80px;
+}
+
+/* Progress Bar Styles */
+.progress-container {
+    margin: 0.8rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #e94560 0%, #c23656 100%);
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+#mainTime {
+    font-size: 0.85rem;
+    color: #ccc;
+    min-width: 100px;
+}
+
+.loop-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0 !important;
+    padding: 0.4rem 0.8rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.loop-toggle input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.loop-toggle span {
+    font-size: 0.85rem;
+}
+
+.overlay-progress {
+    height: 6px;
+    margin-top: 0.5rem;
+}
+
+.overlay-progress .progress-fill {
+    background: linear-gradient(90deg, #0f3460 0%, #1a4d7a 100%);
+}
+
+.overlay-time {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 0.3rem;
+}
+
+/* Form styling fixes */
+.label-text {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #ccc;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-input {
+    padding: 0.6rem;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #e94560;
+    background: rgba(255,255,255,0.15);
+}
+
+.form-input::placeholder {
+    color: #888;
+}
+
+.sound-modal-content {
+    min-width: 450px;
+}
+
+#sceneMainVolume {
+    width: 200px;
+}
+
+#sceneMainVolumeValue {
+    display: inline-block;
+    min-width: 40px;
+    margin-left: 0.5rem;
+}
+
+/* Add this to the end of your styles.css file */
+
+.config-name {
+    font-size: 0.9rem;
+    color: #e94560;
+    background: rgba(233, 69, 96, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    margin-right: 1rem;
+    font-weight: 600;
+}

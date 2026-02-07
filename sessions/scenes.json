@@ -1,0 +1,44 @@
+{
+  "scenes": [
+    {
+      "id": "tavern1",
+      "name": "Tavern",
+      "mainTrack": "C:\\Users\\timot\\Downloads\\Out_Of_The_Cavern_And_Into_The_Light_128k.mp3",
+      "overlays": [
+        {
+          "name": "wind",
+          "path": "C:\\Users\\timot\\Downloads\\Relaxing_Sound_of_Howling_Wind_Blowind_Sand_Relax,_Sleep,_Stress_Relief,..._128k.mp3"
+        }
+      ]
+    },
+    {
+      "id": "battle1",
+      "name": "Boss Battle",
+      "mainTrack": "C:\\Users\\timot\\Downloads\\Sticky.mp3",
+      "overlays": [
+        {
+          "name": "connor",
+          "path": "C:\\Users\\timot\\Downloads\\conneurysm_2.mp3"
+        }
+      ]
+    },
+    {
+      "id": "mlcwdadze67bu8gioi",
+      "name": "christmas",
+      "mainTrack": "C:\\Users\\timot\\Downloads\\Tchaikovsky - 1812 Overture (Full with Cannons).mp3",
+      "overlays": []
+    }
+  ],
+  "soundboard": [
+    {
+      "id": "sword1",
+      "label": "Sword Clash",
+      "path": ""
+    },
+    {
+      "id": "magic1",
+      "label": "Magic Spell",
+      "path": ""
+    }
+  ]
+}

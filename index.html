@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎲 D&D Music Master</h1>
+            <div class="header-controls">
+                <span id="currentConfigName" class="config-name">scenes.json</span>
+                <button id="openConfig" class="btn btn-secondary">📂 Open Config...</button>
+                <button id="saveConfig" class="btn btn-secondary">💾 Save</button>
+                <button id="saveConfigAs" class="btn btn-secondary">💾 Save As...</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Panel: Scenes -->
+            <aside class="scenes-panel">
+                <div class="panel-header">
+                    <h2>Scenes</h2>
+                    <button id="addScene" class="btn btn-small">+ Add</button>
+                </div>
+                <div id="scenesList" class="scenes-list"></div>
+            </aside>
+
+            <!-- Center: Player Controls -->
+            <main class="player-section">
+                <div class="current-scene">
+                    <h2 id="currentSceneName">No Scene Selected</h2>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button id="nextScene" class="btn btn-small" style="display:none;">⏭️ Next Scene</button>
+                        <button id="editScene" class="btn btn-small" style="display:none;">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Main Track -->
+                <div class="track-section">
+                    <h3>Main Track</h3>
+                    <div class="track-controls">
+                        <div class="track-info">
+                            <span id="mainTrackName">No track loaded</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div id="mainProgress" class="progress-fill"></div>
+                            </div>
+                            <span id="mainTime">0:00 / 0:00</span>
+                        </div>
+                        <div class="playback-controls">
+                            <button id="mainPlay" class="btn btn-icon">▶️</button>
+                            <button id="mainPause" class="btn btn-icon">⏸️</button>
+                            <button id="mainStop" class="btn btn-icon">⏹️</button>
+                            <label class="loop-toggle">
+                                <input type="checkbox" id="mainLoop" checked>
+                                <span>Loop</span>
+                            </label>
+                            <label>Volume: <input type="range" id="mainVolume" min="0" max="100" value="70"></label>
+                            <span id="mainVolumeValue">70%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overlays/Ambience -->
+                <div class="track-section">
+                    <h3>Ambient Overlays</h3>
+                    <div id="overlaysList" class="overlays-container"></div>
+                </div>
+            </main>
+
+            <!-- Right Panel: Soundboard -->
+            <aside class="soundboard-panel">
+                <div class="panel-header">
+                    <h2>Soundboard</h2>
+                    <button id="addSound" class="btn btn-small">+ Add</button>
+                </div>
+                <div id="soundboardGrid" class="soundboard-grid"></div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing scenes -->
+    <div id="sceneModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Add Scene</h2>
+            <label>
+                <span class="label-text">Scene Name:</span>
+                <input type="text" id="sceneName" placeholder="e.g., Tavern Brawl">
+            </label>
+            <label>
+                <span class="label-text">Main Track:</span>
+                <input type="text" id="sceneMainTrack" readonly placeholder="MP3 file path or YouTube URL">
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                    <button id="browseMainTrack" class="btn btn-small">Browse File</button>
+                    <button id="youtubeMainTrack" class="btn btn-small">YouTube URL</button>
+                </div>
+            </label>
+            <label style="margin-bottom: 0.5rem;">
+                <span class="label-text">Main Track Volume:</span>
+                <input type="range" id="sceneMainVolume" min="0" max="100" value="70">
+                <span id="sceneMainVolumeValue">70%</span>
+            </label>
+            <div class="modal-overlays">
+                <h3>Overlays</h3>
+                <div id="modalOverlaysList"></div>
+                <button id="addOverlay" class="btn btn-small">+ Add Overlay</button>
+            </div>
+            <div class="modal-actions">
+                <button id="saveScene" class="btn btn-primary">Save</button>
+                <button id="cancelScene" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing soundboard buttons -->
+    <div id="soundModal" class="modal">
+        <div class="modal-content sound-modal-content">
+            <h2 id="soundModalTitle">Add Sound Effect</h2>
+            <div class="form-group">
+                <label for="soundLabel">
+                    <span class="label-text">Button Label:</span>
+                </label>
+                <input type="text" id="soundLabel" placeholder="e.g., Dragon Roar" class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="soundPath">
+                    <span class="label-text">Audio File:</span>
+                </label>
+                <input type="text" id="soundPath" readonly placeholder="MP3 file path or YouTube URL" class="form-input">
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                    <button id="browseSoundPath" class="btn btn-small">Browse File</button>
+                    <button id="youtubeSoundPath" class="btn btn-small">YouTube URL</button>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="saveSound" class="btn btn-primary">Save</button>
+                <button id="cancelSound" class="btn btn-secondary">Cancel</button>
+                <button id="deleteSound" class="btn btn-secondary" style="display:none; margin-right: auto; background: #c23656;">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube URL Input Modal -->
+    <div id="youtubeModal" class="modal">
+        <div class="modal-content" style="min-width: 400px;">
+            <h2>Enter YouTube URL</h2>
+            <label>
+                <span class="label-text">YouTube URL:</span>
+                <input type="text" id="youtubeUrlInput" placeholder="https://youtube.com/watch?v=...">
+            </label>
+            <div class="modal-actions">
+                <button id="confirmYoutube" class="btn btn-primary">Confirm</button>
+                <button id="cancelYoutube" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="renderer.js"></script>
+</body>
+</html>
