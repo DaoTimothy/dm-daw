@@ -1,0 +1,25 @@
+{
+  "scenes": [
+    {
+      "id": "mn7lbyeq2bm2l2g0tzv",
+      "name": "test",
+      "mainTrack": "https://www.youtube.com/watch?v=0habxsuXW4g",
+      "mainVolume": 70,
+      "overlays": []
+    },
+    {
+      "id": "mn7ldk0nyo24bs5qh8",
+      "name": "test 2",
+      "mainTrack": "https://youtu.be/mIhI23gBBPQ?si=N3AVk1_p9nMZpEot",
+      "mainVolume": 70,
+      "overlays": [
+        {
+          "name": "test",
+          "path": "https://youtu.be/a-s_8UrCw2U?si=nfpZADmmTrqiu9fE",
+          "volume": 50
+        }
+      ]
+    }
+  ],
+  "soundboard": []
+}

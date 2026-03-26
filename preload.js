@@ -7,5 +7,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     saveScenes: (data) => ipcRenderer.invoke('save-scenes', data),
     openConfigFile: () => ipcRenderer.invoke('open-config-file'),
     saveConfigFileAs: (data) => ipcRenderer.invoke('save-config-file-as', data),
-    saveConfigToPath: (data, filePath) => ipcRenderer.invoke('save-config-to-path', { data, filePath })
+    saveConfigToPath: (data, filePath) => ipcRenderer.invoke('save-config-to-path', { data, filePath }),
+    getYouTubeStream: (videoUrl) => ipcRenderer.invoke('get-youtube-stream', videoUrl)
 });

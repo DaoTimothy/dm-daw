@@ -256,19 +256,52 @@ async function loadMainTrack(path, savedVolume = 70) {
         state.mainAudio = null;
     }
 
+    let audioPath = path;
+    let displayName = path.split(/[\\/]/).pop();
+
     // Check if it's a YouTube URL
     if (isYouTubeUrl(path)) {
-        const videoId = extractYouTubeId(path);
-        if (videoId) {
-            alert('YouTube links detected. Note: Direct audio extraction from YouTube requires additional setup (ytdl-core or backend service).');
-            state.mainAudio = new Audio();
-            state.mainAudio.src = '';
+        displayName = '🎬 Loading YouTube...';
+        document.getElementById('mainTrackName').textContent = displayName;
+
+        try {
+            const result = await window.electronAPI.getYouTubeStream(path);
+            
+            if (!result.success) {
+                alert('Error loading YouTube: ' + result.error);
+                document.getElementById('mainTrackName').textContent = 'Error loading YouTube';
+                return;
+            }
+
+            audioPath = result.url;
+            displayName = result.title || 'YouTube Audio';
+        } catch (err) {
+            console.error('YouTube stream error:', err);
+            alert('Failed to load YouTube audio: ' + err.message);
+            document.getElementById('mainTrackName').textContent = 'Error loading YouTube';
+            return;
         }
-    } else {
-        state.mainAudio = new Audio(path);
     }
 
+    // Create audio element with proper attributes
+    state.mainAudio = new Audio();
+    state.mainAudio.crossOrigin = 'anonymous';
+    state.mainAudio.src = audioPath;
     state.mainAudio.loop = document.getElementById('mainLoop').checked;
+
+    // Add error handling
+    state.mainAudio.addEventListener('error', (e) => {
+        console.error('Audio load error:', e, 'URL:', audioPath);
+        document.getElementById('mainTrackName').textContent = 'Error loading audio';
+    });
+
+    state.mainAudio.addEventListener('loadstart', () => {
+        console.log('Audio loading started');
+    });
+
+    state.mainAudio.addEventListener('canplay', () => {
+        console.log('Audio ready to play, duration:', state.mainAudio.duration);
+    });
 
     // Restore saved volume or use default
     const volumeToUse = savedVolume || 70;
@@ -276,8 +309,7 @@ async function loadMainTrack(path, savedVolume = 70) {
     document.getElementById('mainVolume').value = volumeToUse;
     document.getElementById('mainVolumeValue').textContent = volumeToUse + '%';
 
-    const filename = path.split(/[\\/]/).pop();
-    document.getElementById('mainTrackName').textContent = filename;
+    document.getElementById('mainTrackName').textContent = displayName;
 
     // Reset progress
     document.getElementById('mainProgress').style.width = '0%';
@@ -285,7 +317,7 @@ async function loadMainTrack(path, savedVolume = 70) {
 }
 
 // Overlay Functions
-function loadOverlays(overlays) {
+async function loadOverlays(overlays) {
     // Clear existing overlays
     state.overlayAudios.forEach(audio => audio.pause());
     state.overlayAudios.clear();
@@ -298,20 +330,47 @@ function loadOverlays(overlays) {
         return;
     }
 
-    overlays.forEach((overlay, index) => {
-        const audio = new Audio(overlay.path);
+    for (let index = 0; index < overlays.length; index++) {
+        const overlay = overlays[index];
+        let audioPath = overlay.path;
+        let displayName = overlay.name || overlay.path.split(/[\\/]/).pop();
+
+        // Handle YouTube URLs for overlays
+        if (isYouTubeUrl(overlay.path)) {
+            try {
+                const result = await window.electronAPI.getYouTubeStream(overlay.path);
+                if (result.success) {
+                    audioPath = result.url;
+                    displayName = overlay.name || result.title;
+                } else {
+                    console.error('Failed to load YouTube overlay:', result.error);
+                    displayName = `${overlay.name || 'Overlay'} (Error)`;
+                }
+            } catch (err) {
+                console.error('YouTube overlay error:', err);
+                displayName = `${overlay.name || 'Overlay'} (Error)`;
+            }
+        }
+
+        const audio = new Audio(audioPath);
+        audio.crossOrigin = 'anonymous';
         audio.loop = true;
         // Restore saved volume or use default
         const savedVol = overlay.volume !== undefined ? overlay.volume : 50;
         audio.volume = savedVol / 100;
+        
+        // Add error handling
+        audio.addEventListener('error', (e) => {
+            console.error('Overlay load error:', e, 'Path:', audioPath);
+        });
+        
         state.overlayAudios.set(index, audio);
 
         const div = document.createElement('div');
         div.className = 'overlay-item';
 
-        const filename = overlay.path.split(/[\\/]/).pop();
         div.innerHTML = `
-            <div class="overlay-name">${overlay.name || filename}</div>
+            <div class="overlay-name">${displayName}</div>
             <div class="overlay-controls">
                 <button class="btn btn-icon btn-small overlay-play" data-index="${index}">▶️</button>
                 <button class="btn btn-icon btn-small overlay-pause" data-index="${index}">⏸️</button>
@@ -340,7 +399,7 @@ function loadOverlays(overlays) {
             if (progressEl) progressEl.style.width = percent + '%';
             if (timeEl) timeEl.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
         });
-    });
+    }
 
     // Add event listeners
     container.querySelectorAll('.overlay-play').forEach(btn => {
@@ -502,8 +561,8 @@ function loadScene(sceneId) {
     }
 
     // Load overlays
-    setTimeout(() => {
-        loadOverlays(scene.overlays || []);
+    setTimeout(async () => {
+        await loadOverlays(scene.overlays || []);
     }, 700);
 
     // Update UI
@@ -715,9 +774,35 @@ function renderSoundboard() {
 }
 
 function playSoundEffect(path) {
-    const sfx = new Audio(path);
-    sfx.volume = 0.7;
-    sfx.play().catch(err => console.error('SFX play error:', err));
+    if (isYouTubeUrl(path)) {
+        // Load YouTube audio asynchronously
+        window.electronAPI.getYouTubeStream(path)
+            .then(result => {
+                if (result.success) {
+                    const sfx = new Audio();
+                    sfx.crossOrigin = 'anonymous';
+                    sfx.src = result.url;
+                    sfx.volume = 0.7;
+                    sfx.addEventListener('error', (e) => {
+                        console.error('Sound effect error:', e);
+                    });
+                    sfx.play().catch(err => console.error('SFX play error:', err));
+                } else {
+                    alert('Failed to load YouTube sound: ' + result.error);
+                }
+            })
+            .catch(err => {
+                console.error('YouTube sound error:', err);
+                alert('Error loading YouTube sound effect: ' + err.message);
+            });
+    } else {
+        const sfx = new Audio(path);
+        sfx.volume = 0.7;
+        sfx.addEventListener('error', (e) => {
+            console.error('Sound effect error:', e);
+        });
+        sfx.play().catch(err => console.error('SFX play error:', err));
+    }
 }
 
 // Sound Modal Functions
