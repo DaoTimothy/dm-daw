@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D&D Enemy Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <h1>🐉 Enemy Tracker</h1>
+    <div class="header-buttons">
+      <button id="btn-new" class="btn btn-primary">New</button>
+      <button id="btn-open" class="btn btn-primary">Open</button>
+      <button id="btn-save" class="btn btn-success">Save</button>
+      <button id="btn-save-as" class="btn btn-success">Save As</button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <!-- Left Panel: Add Enemy Form & Enemy List -->
+    <div class="left-panel">
+      <div class="form-section">
+        <div class="form-header">
+          <h2>Edit Enemy</h2>
+          <button type="button" id="btn-new-enemy" class="btn btn-secondary">New Enemy</button>
+        </div>
+        <form id="enemy-form">
+          <div class="form-group">
+            <label for="enemy-name">Name *</label>
+            <input type="text" id="enemy-name" name="enemy-name" required placeholder="Enemy name">
+          </div>
+
+          <div class="form-group">
+            <label for="enemy-image">Stat Block Image</label>
+            <input type="file" id="enemy-image" name="enemy-image" accept="image/*">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ac">AC</label>
+              <input type="number" id="ac" name="ac" value="10" min="1">
+            </div>
+            <div class="form-group">
+              <label for="max-hp">Max HP</label>
+              <input type="number" id="max-hp" name="max-hp" value="1" min="1">
+            </div>
+            <div class="form-group">
+              <label for="current-hp">Current HP</label>
+              <input type="number" id="current-hp" name="current-hp" value="1" min="0">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="spell-slots">Spell Slots</label>
+            <input type="text" id="spell-slots" name="spell-slots" placeholder="e.g., 1st: 4, 2nd: 3, 3rd: 2">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="legendary-max">Legendary Max</label>
+              <input type="number" id="legendary-max" name="legendary-max" value="0" min="0">
+            </div>
+            <div class="form-group">
+              <label for="legendary-current">Legendary Current</label>
+              <input type="number" id="legendary-current" name="legendary-current" value="0" min="0">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="resistances">Resistances</label>
+            <input type="text" id="resistances" name="resistances" placeholder="e.g., fire, cold">
+          </div>
+
+          <div class="form-group">
+            <label for="weaknesses">Weaknesses</label>
+            <input type="text" id="weaknesses" name="weaknesses" placeholder="e.g., thunder, radiant">
+          </div>
+
+          <button type="submit" class="btn btn-add">Save Enemy</button>
+        </form>
+      </div>
+
+      <div class="list-section">
+        <h2>Tracked Enemies</h2>
+        <div id="enemy-list" class="enemy-list">
+          <p class="placeholder">No enemies tracked yet</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Enemy Details -->
+    <div class="right-panel">
+      <div id="enemy-details" class="enemy-details">
+        <p class="placeholder">Select an enemy or add a new one</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="enemies-container"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

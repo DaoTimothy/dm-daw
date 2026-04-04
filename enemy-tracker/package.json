@@ -1,0 +1,20 @@
+{
+  "name": "dm-daw-enemy-tracker",
+  "version": "1.0.0",
+  "description": "D&D Enemy Tracker for Dungeon Masters",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "electron",
+    "dnd",
+    "dungeon-master",
+    "enemy-tracker"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0"
+  }
+}
