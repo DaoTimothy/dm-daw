@@ -1,68 +1,58 @@
 {
   "scenes": [
     {
-      "id": "mnaseigrgw1c7trjhhc",
-      "name": "Preroom",
-      "mainTrack": "https://www.youtube.com/watch?v=CNf6BL8gwbw",
+      "id": "moj45fw5qdpdsvlq8a",
+      "name": "Lobby",
+      "mainTrack": "https://youtu.be/lYszU3R_X6s?si=tYwFvtWlZh36UCeT",
       "mainVolume": 70,
       "overlays": []
     },
     {
-      "id": "mnasflly23p7dbpycf9",
-      "name": "Room 1",
-      "mainTrack": "https://youtu.be/LDnENTDuAiI",
-      "mainVolume": 0,
-      "overlays": []
-    },
-    {
-      "id": "mnashnei2cm1yl03diq",
-      "name": "Room 1 chill",
-      "mainTrack": "https://www.youtube.com/watch?v=4QYSNePstcw",
+      "id": "moj46hy1piw4ze6580r",
+      "name": "In trial",
+      "mainTrack": "https://youtu.be/FsMSnhq4-XE?si=yyq50S3ZqIlvWmgP",
       "mainVolume": 70,
       "overlays": []
     },
     {
-      "id": "mnasku5ztkxee7g0k1b",
-      "name": "Room 3 entering",
-      "mainTrack": "https://www.youtube.com/watch?v=0_SeDY8Y3g8",
-      "mainVolume": 26,
-      "overlays": []
-    },
-    {
-      "id": "mnasrdh0966lxwhjr7j",
-      "name": "Room 3 chilling",
-      "mainTrack": "https://www.youtube.com/watch?v=sy-t6BW3Oso",
-      "mainVolume": 0,
-      "overlays": []
-    },
-    {
-      "id": "mnatzo1j9q5tqpqr4tt",
-      "name": "Room 5 as boss is spawning",
-      "mainTrack": "https://www.youtube.com/watch?v=5lZwy_yGVeM",
+      "id": "moj4ii2ixy2owdt4mf",
+      "name": "Cult party doing their shit",
+      "mainTrack": "https://youtu.be/kKGmZN06lBI?si=Z1Me8cdhZCY6Q2xJ",
       "mainVolume": 70,
       "overlays": []
     },
     {
-      "id": "mnau2cbt29dh3soe9xe",
-      "name": "Boss Phase 1",
-      "mainTrack": "https://www.youtube.com/watch?v=oi081SAsKAw",
+      "id": "moj4og6uedf0hulgfl4",
+      "name": "Cult party fight",
+      "mainTrack": "https://youtu.be/QP4ExX773B4?si=ratOWsfcDBMn9hTV",
       "mainVolume": 70,
       "overlays": []
     },
     {
-      "id": "mnau2zcrrv68n2uahs",
-      "name": "Boss Phase 2",
-      "mainTrack": "https://www.youtube.com/watch?v=Xnc4wSuKvuo",
-      "mainVolume": 36,
+      "id": "moj4opse07rb9blbtd7m",
+      "name": "Boss fight",
+      "mainTrack": "https://youtu.be/Xnc4wSuKvuo?si=SjpcgRDtomHfW51K",
+      "mainVolume": 31,
       "overlays": []
     },
     {
-      "id": "mnaug5n3gb4p0hm45iq",
-      "name": "Aftermath",
-      "mainTrack": "https://www.youtube.com/watch?v=--RU438cUM0",
-      "mainVolume": 70,
+      "id": "moj4r351kx7hz54r4n",
+      "name": "Final phase",
+      "mainTrack": "https://youtu.be/8g2Uyx14Z6c?si=woDzWUOTPWXCTvoZ",
+      "mainVolume": 34,
       "overlays": []
     }
   ],
-  "soundboard": []
+  "soundboard": [
+    {
+      "id": "moj47b0zfuqod81908e",
+      "label": "Rewind time",
+      "path": "https://www.youtube.com/watch?v=QqvLHzWaF_s"
+    },
+    {
+      "id": "moj4d7ojan0zld7br4v",
+      "label": "Hourglass flip",
+      "path": "http://youtube.com/watch?v=D6D3888sH10"
+    }
+  ]
 }
